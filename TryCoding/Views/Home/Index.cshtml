@@ -1,13 +1,32 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿
+@{
+    ViewBag.Title = "Index";
 }
+<div>
+    <h2>留言板首頁</h2>
+</div>
+<br />
+<div>
+    <input type="text" id="Search" />
+    <input type="button" id="clicksearch" value="搜尋" />
+</div>
+<br />
+<div>
+    <input type="button" id="LeaveMessage" value="新增留言" />
+</div>
+<br />
+<div>
+    <ul class="Message-list">
 
-<div class="jumbotron">
-    <h2>Log In</h2>
-    <br />
-    帳號：<input type="text" name="UserID" />
-    <br />
-    密碼：<input type="password" name="UserPassword" />
-    <input type="button"  />
+    </ul>
 </div>
 
+
+<div id="MessageModal" class="modal" role="dialog" style="overflow:auto">
+
+</div>
+
+@section scripts{
+    
+    
+    }

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "LogIn Page";
+}
+
+<div class="jumbotron">
+    <h2>Log In</h2>
+    <br />
+    帳號：<input type="text" name="UserID" />
+    <br />
+    密碼：<input type="password" name="UserPassword" />
+    <br />
+    <input type="button" value="登入" />
+    <input type="button" value="註冊" onclick="location.href='/Home/SignUp'" />
+    <label><input type="checkbox" value="Remember me" />記住我的帳號</label>
+</div>
+
+
+@section scripts{
+
+
+}
+
