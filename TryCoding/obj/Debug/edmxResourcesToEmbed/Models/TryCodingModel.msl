@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TryCodingDBModelStoreContainer" CdmEntityContainer="TryCodingDBEntities">
+    <EntitySetMapping Name="Table_Member">
+      <EntityTypeMapping TypeName="TryCodingDBModel.Table_Member">
+        <MappingFragment StoreEntitySet="Table_Member">
+          <ScalarProperty Name="MId" ColumnName="MId" />
+          <ScalarProperty Name="MEmail" ColumnName="MEmail" />
+          <ScalarProperty Name="MPassword" ColumnName="MPassword" />
+          <ScalarProperty Name="MName" ColumnName="MName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Table_message">
+      <EntityTypeMapping TypeName="TryCodingDBModel.Table_message">
+        <MappingFragment StoreEntitySet="Table_message">
+          <ScalarProperty Name="mId" ColumnName="mId" />
+          <ScalarProperty Name="mMember" ColumnName="mMember" />
+          <ScalarProperty Name="mMessage" ColumnName="mMessage" />
+          <ScalarProperty Name="mTime" ColumnName="mTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

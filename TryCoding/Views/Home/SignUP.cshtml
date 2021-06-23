@@ -20,12 +20,75 @@
         <label>確認密碼：</label>
         <input type="password" id="PasswordCheck" class="form-control" />
         <br />
-        <input type="button" value="送出" id="submit" />
+        <input type="button" value="送出" id="btnsubmit" />
     </form>
 </div>
 
 
 @section scripts{
+<script>
 
+    $('#btnsubmit').click(function () {
+
+        var password = $('#Password').val();
+        var checkpassword = $('#PasswordCheck').val();
+
+        if ($('#Email').val() == "") {
+            alert('請輸入Email');
+        }
+
+        if ($('#NickName').val() == "") {
+            alert('請輸入暱稱');
+        }
+
+        if ($('#Passward').val() == "") {
+            alert('請輸入密碼');
+        }
+
+        if (password != checkpassword) {
+            alert('密碼確認錯誤');
+        }
+    
+            SaveMember();
+            
+    })
+
+    function SaveMember() {
+        $.ajax({
+            type: "POST",
+            url: '/Member/CreateMember',
+            data: {
+                "Email": $('#Email').val(),
+                "NickName": $('#NickName').val(),
+                "Password":$('#Password').val()
+            },
+            success: function (result) {
+                //console.log(result);
+
+                if (result == "信箱及暱稱已被註冊") {
+                    alert('信箱及暱稱已被註冊')
+                }
+
+                if (result == "信箱已被註冊") {
+                    alert('信箱已被註冊')
+                }
+
+                if (result == "此暱稱已被使用") {
+                    alert('此暱稱已被使用')
+                }
+
+                if (result == "註冊成功") {
+                    alert('註冊成功');
+                window.location.href = "/Home/Index";
+                }
+                
+            },
+            error: function () {
+                alert('資料傳輸失敗，請洽管理人員')
+            }
+        })
+    }
+
+    </script>
 
 }

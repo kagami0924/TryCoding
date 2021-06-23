@@ -164,3 +164,8 @@ E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\obj\Debug\T
 E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\obj\Debug\TryCoding.csproj.CopyComplete
 E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\obj\Debug\TryCoding.dll
 E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\obj\Debug\TryCoding.pdb
+E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\bin\EntityFramework.dll
+E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\bin\EntityFramework.SqlServer.dll
+E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\bin\EntityFramework.xml
+E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\bin\EntityFramework.SqlServer.xml
+E:\Data\hwjhang\Desktop\TryCoding\TryCoding\TryCoding(git)\TryCoding\bin\zh-Hant\EntityFramework.resources.dll

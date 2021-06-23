@@ -5,18 +5,54 @@
 <div class="jumbotron">
     <h2>Log In</h2>
     <br />
-    帳號：<input type="text" name="UserID" />
+    帳號(Email)：<input type="text" name="UserID" id="Email" />
     <br />
-    密碼：<input type="password" name="UserPassword" />
+    密碼：<input type="password" name="UserPassword" id="Password" />
     <br />
-    <input type="button" value="登入" />
+    <input type="button" value="登入" id="btnLogin" />
     <input type="button" value="註冊" onclick="location.href='/Home/SignUp'" />
-    <label><input type="checkbox" value="Remember me" />記住我的帳號</label>
+    <label><input type="checkbox" id="RememberMe" />記住我的帳號</label>
 </div>
 
 
 @section scripts{
+    <script>
 
+        $('#btnLogin').click(function () {
+
+            if ($('#Email').val() == "") {
+                alert('請輸入Email');
+            }
+
+            if ($('#Passward').val() == "") {
+                alert('請輸入密碼');
+            }
+
+            LogInCheck();
+
+        })
+
+        function LogInCheck() {
+            $.ajax({
+                type: "POST",
+                url: '/Member/LogInCheck',
+                data: {
+                    "Email": $('#Email').val(),
+                    "Password": $('#Password').val(),
+                    "RememberMe": $('#RememberMe').prop('checked')
+                },
+                success: function (result) {
+                    //console.log(result);
+
+
+                },
+                error: function () {
+                    alert('資料傳輸失敗，請洽管理人員')
+                }
+            })
+        }
+
+    </script>
 
 }
 
