@@ -2,6 +2,34 @@
 @{
     ViewBag.Title = "Index";
 }
+@section style{
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+        .tableul{
+            width:95%;
+            display:block;
+            margin:1em auto;
+            border-collapse:collapse;
+        }
+        .thead{display:table-header-group;}
+        .tr{display:table-row;}
+        .tbody{display:table-row-group;}
+        .thead li, .tr li{
+            display:table-cell;
+            padding:5px;
+            border:1px solid #aaa;   
+        }
+        .thead li {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    }
 <div>
     <h2>留言板首頁</h2>
 </div>
@@ -16,12 +44,18 @@
 </div>
 <br />
 <div>
-    <table>
-        <thead>
-            <tr><th></th></tr>
-        </thead>
-        <ul class="Message-list"></ul>
-    </table>
+   <ul class="tableul">
+       <li class="thead">
+           <ol class="tr">
+               <li>暱稱</li>
+               <li>留言</li>
+               <li>時間</li>
+           </ol>
+       </li>
+       <li class="tbody MessageList">
+          
+       </li>
+   </ul>
 </div>
 
 
@@ -30,8 +64,59 @@
 </div>
 
 @section scripts{
+    <script src="~/Scripts/moment.js"></script>
     <script>
-
-    </script>
     
+        $(document).ready(function () {
+
+            var messages = [];
+            GetMessages();
+
+
+            function GetMessages() {
+                messages = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/Message/GetMessages",
+                    success: function (data) {
+                        console.log(data);
+                        var str = "";
+                        var el = document.querySelector(".MessageList");
+                        for (var i = 0; i < data.length; i++) {
+                            var date = new Date(data[i].mTime);
+                            var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date.toLocaleString()}</li></ol>`
+                            str += content; 
+                        }
+                        el.innerHTML = str;
+                        console.log(str);
+                    },
+                    error: function () {
+                        alert('載入失敗');
+                    }
+                })
+            }
+
+            $('#"clicksearch').click(function () {
+                if ($('#Search').val() == "") {
+                    GetMessages();
+                }
+                SearchMember();
+            })
+
+            function SearchMember() {
+                $.ajax({
+                    type: "GET",
+                    url: '/Message/ SearchMember',
+                    data: { "member": $('#Search').val() },
+                    success: function (list) {
+
+                    },
+                    error: function () {
+                        alert('搜尋失敗');
+                    }
+                })
+            }
+
+        })
+    </script>
     }

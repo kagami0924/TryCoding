@@ -51,23 +51,24 @@ namespace TryCoding.Controllers
 
             string result = "";
             var EmailCheck = db.Table_Member.FirstOrDefault(e => e.MEmail == Email);
-            var PasswordCheck = db.Table_Member.FirstOrDefault(p => p.MPassword == Password);
+            var PasswordCheck = EmailCheck.MPassword;
+
+            if (EmailCheck == null) {
+                result = "查無此帳號";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
 
             if (EmailCheck != null) {
-                if (PasswordCheck != null) {
-                    result = "信箱及暱稱已被註冊";
+                if (PasswordCheck == Password) {
+                    result = "登入成功";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                result = "信箱已被註冊";
-                return Json(result, JsonRequestBehavior.AllowGet);
+                if (PasswordCheck != Password) {
+                    result = "密碼不正確";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
             }
-
-            if (PasswordCheck != null) {
-                result = "此暱稱已被使用";
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-            return
+            return Json("");
         }
 
     }
