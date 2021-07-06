@@ -5,13 +5,13 @@
 <div class="jumbotron">
     <h2>Log In</h2>
     <br />
-    帳號(Email)：<input type="text" name="UserID" id="Email" />
+    帳號(Email)：<input type="text" name="UserID" id="Email" value="@ViewBag.UserEmail" />
     <br />
-    密碼：<input type="password" name="UserPassword" id="Password" />
+    密碼：<input type="password" name="UserPassword" id="Password" value="@ViewBag.UserPWD" />
     <br />
     <input type="button" value="登入" id="btnLogin" />
     <input type="button" value="註冊" onclick="location.href='/Home/SignUp'" />
-    <label><input type="checkbox" id="RememberMe" />記住我的帳號</label>
+    <label><input type="checkbox" id="RememberMe" />記住我的帳號密碼</label>
 </div>
 
 
@@ -43,10 +43,15 @@
                 },
                 success: function (result) {
                     //console.log(result);
-                    if (result == ) {
-
+                    if (result == "查無此帳號") {
+                        alert("查無此帳號");
                     }
-
+                    if (result == "密碼不正確") {
+                        alert("密碼不正確");
+                    }
+                    if (result == "登入成功") {
+                        window.location.href = "/Home/Index";
+                    }
                 },
                 error: function () {
                     alert('資料傳輸失敗，請洽管理人員')

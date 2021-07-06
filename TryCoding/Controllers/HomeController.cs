@@ -12,6 +12,19 @@ namespace TryCoding.Controllers {
         }
 
         public ActionResult LogIn() {
+
+            HttpCookie cookie = Request.Cookies.Get("User");
+
+            if (cookie != null)
+            {
+
+                var email = cookie.Values["UserEmail"].ToString();
+                ViewBag.UserEmail = email;
+
+                var PWD = cookie.Values["UserPWD"].ToString();
+                ViewBag.UserPWD = PWD;
+            }
+
             return View();
         }
 

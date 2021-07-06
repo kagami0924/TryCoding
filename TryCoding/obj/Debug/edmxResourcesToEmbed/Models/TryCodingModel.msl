@@ -14,10 +14,10 @@
     <EntitySetMapping Name="Table_message">
       <EntityTypeMapping TypeName="TryCodingDBModel.Table_message">
         <MappingFragment StoreEntitySet="Table_message">
-          <ScalarProperty Name="mId" ColumnName="mId" />
-          <ScalarProperty Name="mMember" ColumnName="mMember" />
-          <ScalarProperty Name="mMessage" ColumnName="mMessage" />
           <ScalarProperty Name="mTime" ColumnName="mTime" />
+          <ScalarProperty Name="mMessage" ColumnName="mMessage" />
+          <ScalarProperty Name="mMember" ColumnName="mMember" />
+          <ScalarProperty Name="mId" ColumnName="mId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

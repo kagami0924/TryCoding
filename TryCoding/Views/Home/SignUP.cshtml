@@ -35,18 +35,22 @@
 
         if ($('#Email').val() == "") {
             alert('請輸入Email');
+            return false;
         }
 
         if ($('#NickName').val() == "") {
             alert('請輸入暱稱');
+            return false;
         }
 
         if ($('#Passward').val() == "") {
             alert('請輸入密碼');
+            return false;
         }
 
         if (password != checkpassword) {
             alert('密碼確認錯誤');
+            return false;
         }
     
             SaveMember();
@@ -79,7 +83,7 @@
 
                 if (result == "註冊成功") {
                     alert('註冊成功');
-                window.location.href = "/Home/Index";
+                window.location.href = "/Home/LogIn";
                 }
                 
             },

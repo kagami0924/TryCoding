@@ -16,7 +16,7 @@
     <Property Name="mId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="mMember" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="mMessage" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="mTime" Type="smalldatetime" Nullable="false" />
+    <Property Name="mTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityContainer Name="TryCodingDBModelStoreContainer">
     <EntitySet Name="Table_Member" EntityType="Self.Table_Member" Schema="dbo" store:Type="Tables" />

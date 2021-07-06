@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TryCodingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TryCodingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Table_Member">
           <Key>
             <PropertyRef Name="MId" />
@@ -21,14 +21,13 @@
           <Property Name="mId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="mMember" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="mMessage" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="mTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="mTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityContainer Name="TryCodingDBModelStoreContainer">
           <EntitySet Name="Table_Member" EntityType="Self.Table_Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_message" EntityType="Self.Table_message" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TryCodingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -41,19 +40,19 @@
           <Property Name="MPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityContainer Name="TryCodingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Table_Member" EntityType="Self.Table_Member" />
+          <EntitySet Name="Table_message" EntityType="TryCodingDBModel.Table_message" />
+        </EntityContainer>
         <EntityType Name="Table_message">
           <Key>
             <PropertyRef Name="mId" />
           </Key>
           <Property Name="mId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="mMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="mMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="mTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mMember" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mMessage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityContainer Name="TryCodingDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Table_Member" EntityType="Self.Table_Member" />
-          <EntitySet Name="Table_message" EntityType="Self.Table_message" />
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -73,10 +72,10 @@
           <EntitySetMapping Name="Table_message">
             <EntityTypeMapping TypeName="TryCodingDBModel.Table_message">
               <MappingFragment StoreEntitySet="Table_message">
-                <ScalarProperty Name="mId" ColumnName="mId" />
-                <ScalarProperty Name="mMember" ColumnName="mMember" />
-                <ScalarProperty Name="mMessage" ColumnName="mMessage" />
                 <ScalarProperty Name="mTime" ColumnName="mTime" />
+                <ScalarProperty Name="mMessage" ColumnName="mMessage" />
+                <ScalarProperty Name="mMember" ColumnName="mMember" />
+                <ScalarProperty Name="mId" ColumnName="mId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

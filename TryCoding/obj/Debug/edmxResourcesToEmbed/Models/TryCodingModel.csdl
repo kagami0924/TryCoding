@@ -9,17 +9,17 @@
     <Property Name="MPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
+  <EntityContainer Name="TryCodingDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Table_Member" EntityType="Self.Table_Member" />
+    <EntitySet Name="Table_message" EntityType="TryCodingDBModel.Table_message" />
+  </EntityContainer>
   <EntityType Name="Table_message">
     <Key>
       <PropertyRef Name="mId" />
     </Key>
     <Property Name="mId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="mMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="mMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="mTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="mMember" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mMessage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mTime" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
-  <EntityContainer Name="TryCodingDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Table_Member" EntityType="Self.Table_Member" />
-    <EntitySet Name="Table_message" EntityType="Self.Table_message" />
-  </EntityContainer>
 </Schema>

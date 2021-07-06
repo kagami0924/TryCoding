@@ -10,26 +10,38 @@
             list-style: none;
             box-sizing: border-box;
         }
-        .tableul{
-            width:95%;
-            display:block;
-            margin:1em auto;
-            border-collapse:collapse;
+
+        .tableul {
+            width: 95%;
+            display: block;
+            margin: 1em auto;
+            border-collapse: collapse;
         }
-        .thead{display:table-header-group;}
-        .tr{display:table-row;}
-        .tbody{display:table-row-group;}
-        .thead li, .tr li{
-            display:table-cell;
-            padding:5px;
-            border:1px solid #aaa;   
+
+        .thead {
+            display: table-header-group;
         }
+
+        .tr {
+            display: table-row;
+        }
+
+        .tbody {
+            display: table-row-group;
+        }
+
+        .thead li, .tr li {
+            display: table-cell;
+            padding: 5px;
+            border: 1px solid #aaa;
+        }
+
         .thead li {
             text-align: center;
             font-weight: bold;
         }
     </style>
-    }
+}
 <div>
     <h2>留言板首頁</h2>
 </div>
@@ -40,83 +52,153 @@
 </div>
 <br />
 <div>
-    <input type="button" id="LeaveMessage" value="新增留言" />
+    <input type="button" id="btnCreateMessage" value="我要留言" />
 </div>
 <br />
 <div>
-   <ul class="tableul">
-       <li class="thead">
-           <ol class="tr">
-               <li>暱稱</li>
-               <li>留言</li>
-               <li>時間</li>
-           </ol>
-       </li>
-       <li class="tbody MessageList">
-          
-       </li>
-   </ul>
+    <ul class="tableul">
+        <li class="thead">
+            <ol class="tr">
+                <li>暱稱</li>
+                <li>留言</li>
+                <li>時間</li>
+            </ol>
+        </li>
+        <li class="tbody MessageList">
+
+        </li>
+    </ul>
 </div>
 
 
 <div id="MessageModal" class="modal" role="dialog" style="overflow:auto">
-
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">請暢所欲言</h4>
+            </div>
+            <div class="modal-body" style="height:100px">
+                <form class="col-md-12 form-horizontal">
+                    <input type="hidden" id="Member" value="" />
+                    <div class="form-group">
+                        <label>我想說：</label>
+                        <input type="text" id="txtmessage" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSave" class="btn btn-success">儲存</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts{
     <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/date.f-0.5.0.js"></script>
     <script>
-    
+
         $(document).ready(function () {
 
-            var messages = [];
+            var Member = document.cookie.split('UserName=')[1];
+
+            console.log(Member);
+
             GetMessages();
 
+            $("#btnCreateMessage").click(function () {
+                $("#MessageModal").modal('show');
+                $("#Member").val(Member);
+            })
 
-            function GetMessages() {
-                messages = [];
+            $("#btnSave").click(function () {
+
+                if ($("#txtmessage").val() == "") {
+                    alert("請輸入留言");
+                    return false;
+                }
+
                 $.ajax({
-                    type: "GET",
-                    url: "/Message/GetMessages",
-                    success: function (data) {
-                        console.log(data);
-                        var str = "";
-                        var el = document.querySelector(".MessageList");
-                        for (var i = 0; i < data.length; i++) {
-                            var date = new Date(data[i].mTime);
-                            var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date.toLocaleString()}</li></ol>`
-                            str += content; 
-                        }
-                        el.innerHTML = str;
-                        console.log(str);
+                    type: "POST",
+                    url: '/Message/CreateMessage',
+                    data: {
+                        "Member": $("#Member").val(),
+                        "Message":$("#txtmessage").val()
+                    },
+                    success: function () {
+                        GetMessages();
+                        $("#MessageModal").modal('hide');
                     },
                     error: function () {
-                        alert('載入失敗');
+                        alert("連線異常");
                     }
                 })
-            }
 
-            $('#"clicksearch').click(function () {
+            })
+
+            $("#clicksearch").click(function () {
                 if ($('#Search').val() == "") {
                     GetMessages();
                 }
-                SearchMember();
+                else {
+                    SearchMember();
+                }
+
             })
 
-            function SearchMember() {
-                $.ajax({
-                    type: "GET",
-                    url: '/Message/ SearchMember',
-                    data: { "member": $('#Search').val() },
-                    success: function (list) {
-
-                    },
-                    error: function () {
-                        alert('搜尋失敗');
-                    }
-                })
-            }
-
         })
+
+        function GetMessages() {
+            messages = [];
+            $.ajax({
+                type: "GET",
+                url: "/Message/GetMessages",
+                success: function (data) {
+                    console.log(data);
+                    var str = "";
+                    var el = document.querySelector(".MessageList");
+                    for (var i = 0; i < data.length; i++) {
+                        var date = eval((data[i].mTime).replace(/\/Date\((.*?)\)\//gi, "new Date($1)")).f("yyyy-MM-dd HH:mm:ss");
+
+                        var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date}</li></ol>`
+                        str += content;
+                    }
+                    el.innerHTML = str;
+                    console.log(date);
+                },
+                error: function () {
+                    alert('載入失敗');
+                }
+            })
+        }
+
+        function SearchMember() {
+            $.ajax({
+                type: "GET",
+                url: '/Message/SearchMember',
+                data: { "member": $('#Search').val() },
+                success: function (data) {
+                    console.log(data);
+                    var str = "";
+                    var el = document.querySelector(".MessageList");
+                    for (var i = 0; i < data.length; i++) {
+                        var date = eval((data[i].Time).replace(/\/Date\((.*?)\)\//gi, "new Date($1)")).f("yyyy-MM-dd HH:mm:ss");
+
+                        var content = `<ol class="tr"><li>${data[i].Member}</li><li>${data[i].Message}</li><li>${date}</li></ol>`
+                        str += content;
+                    }
+                    el.innerHTML = str;
+                },
+                error: function () {
+                    alert('搜尋失敗');
+                }
+            })
+        }
+
+
+
+
+
     </script>
-    }
+}

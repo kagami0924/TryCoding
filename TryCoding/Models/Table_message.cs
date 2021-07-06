@@ -11,12 +11,14 @@ namespace TryCoding.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Table_message
     {
         public int mId { get; set; }
         public string mMember { get; set; }
         public string mMessage { get; set; }
+        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd HH:mm:ss}")]
         public System.DateTime mTime { get; set; }
     }
 }

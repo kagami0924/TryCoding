@@ -15,14 +15,17 @@ namespace TryCoding.Controllers
 
         // CreateMember
         [HttpPost]
-        public JsonResult CreateMember(string Email, string NickName, string Password) {
+        public JsonResult CreateMember(string Email, string NickName, string Password)
+        {
 
             string result = "";
             var EmailCheck = db.Table_Member.FirstOrDefault(e => e.MEmail == Email);
             var NickNameCheck = db.Table_Member.FirstOrDefault(n => n.MName == NickName);
 
-            if (EmailCheck != null) {
-                if (NickNameCheck != null) {
+            if (EmailCheck != null)
+            {
+                if (NickNameCheck != null)
+                {
                     result = "信箱及暱稱已被註冊";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
@@ -30,40 +33,80 @@ namespace TryCoding.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            if (NickNameCheck != null) {
+            if (NickNameCheck != null)
+            {
                 result = "此暱稱已被使用";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-
-            Table_Member m = new Table_Member() {
+            else
+            {
+                Table_Member m = new Table_Member()
+            {
                 MEmail = Email,
                 MName = NickName,
                 MPassword = Password
             };
             mb.create(m);
             result = "註冊成功";
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);    
+            }           
         }
 
 
         [HttpPost]
-        public JsonResult LogInCheck(string Email, string Password, bool RememberMe) {
+        public JsonResult LogInCheck(string Email, string Password, bool RememberMe)
+        {
 
             string result = "";
             var EmailCheck = db.Table_Member.FirstOrDefault(e => e.MEmail == Email);
             var PasswordCheck = EmailCheck.MPassword;
 
-            if (EmailCheck == null) {
+            if (EmailCheck == null)
+            {
                 result = "查無此帳號";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            if (EmailCheck != null) {
-                if (PasswordCheck == Password) {
+            if (EmailCheck != null)
+            {
+                if (PasswordCheck == Password)
+                {
+
                     result = "登入成功";
+
+                    if (RememberMe == true)
+                    {
+                        HttpCookie cookie = new HttpCookie("User");
+
+                        cookie["UserEmail"] = EmailCheck.MEmail;
+
+                        cookie["UserPWD"] = EmailCheck.MPassword;
+
+                        cookie["UserName"] = EmailCheck.MName;
+
+                        cookie.Expires = DateTime.Now.AddDays(3);
+
+                        Response.Cookies.Add(cookie);
+                    }
+                    else
+                    {
+                        HttpCookie cookie = new HttpCookie("User");
+
+                        cookie["UserEmail"] = "";
+
+                        cookie["UserPWD"] = "";
+
+                        cookie["UserName"] = EmailCheck.MName;
+
+                        cookie.Expires = DateTime.Now.AddDays(3);
+
+                        Response.Cookies.Add(cookie);
+                    }
+
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                if (PasswordCheck != Password) {
+                if (PasswordCheck != Password)
+                {
                     result = "密碼不正確";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
