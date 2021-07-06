@@ -62,6 +62,7 @@
                 <li>暱稱</li>
                 <li>留言</li>
                 <li>時間</li>
+                <li>功能</li>
             </ol>
         </li>
         <li class="tbody MessageList">
@@ -124,7 +125,7 @@
                     url: '/Message/CreateMessage',
                     data: {
                         "Member": $("#Member").val(),
-                        "Message":$("#txtmessage").val()
+                        "Message": $("#txtmessage").val()
                     },
                     success: function () {
                         GetMessages();
@@ -161,7 +162,7 @@
                     for (var i = 0; i < data.length; i++) {
                         var date = eval((data[i].mTime).replace(/\/Date\((.*?)\)\//gi, "new Date($1)")).f("yyyy-MM-dd HH:mm:ss");
 
-                        var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date}</li></ol>`
+                        var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date}</li><li></li></ol>`
                         str += content;
                     }
                     el.innerHTML = str;

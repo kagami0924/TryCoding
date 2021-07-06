@@ -31,6 +31,7 @@ namespace TryCoding.Controllers
             {
                 var list = ta.getAll().Where(m => m.mMember.Contains(member)).Select(m => new
                 {
+                    Id = m.mId,
                     Member = m.mMember,
                     Message = m.mMessage,
                     Time = m.mTime,
