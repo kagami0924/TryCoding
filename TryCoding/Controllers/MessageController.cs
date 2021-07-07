@@ -51,5 +51,28 @@ namespace TryCoding.Controllers
 
             ta.create(Message);
         }
+
+        [HttpPost]
+        public void UpdateMessage(int Id, string message)
+        {
+            var data = db.Table_message.Where(m => m.mId == Id).FirstOrDefault();
+            if (data != null)
+            {
+                data.mMessage = message;
+                db.SaveChanges();
+            }
+        }
+
+        [HttpGet]
+        public void DeletMessage(int Id)
+        {
+            var message = db.Table_message.Where(m => m.mId == Id).FirstOrDefault();
+            if (message != null)
+            {
+                db.Table_message.Remove(message);
+                db.SaveChanges();
+            }
+        }
+
     }
 }

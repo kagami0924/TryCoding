@@ -8,6 +8,12 @@ namespace TryCoding.Controllers {
     public class HomeController : Controller {
 
         public ActionResult Index() {
+
+            if (Request.Cookies["User"] == null)
+            {
+                return RedirectToAction("LogIn");
+            }
+
             return View();
         }
 
@@ -31,6 +37,13 @@ namespace TryCoding.Controllers {
         public ActionResult SignUp() {
 
             return View();
+        }
+
+        public ActionResult LogOut()
+        {
+            HttpContext.Response.Cookies["User"].Expires = DateTime.Now.AddDays(-1);
+
+            return RedirectToAction("LogIn");
         }
 
         public ActionResult Contact() {

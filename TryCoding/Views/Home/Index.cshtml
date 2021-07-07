@@ -40,6 +40,11 @@
             text-align: center;
             font-weight: bold;
         }
+
+        .btn {
+            margin-left: 10px;
+        }
+
     </style>
 }
 <div>
@@ -96,6 +101,7 @@
 </div>
 
 @section scripts{
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/date.f-0.5.0.js"></script>
     <script>
@@ -103,7 +109,6 @@
         $(document).ready(function () {
 
             var Member = document.cookie.split('UserName=')[1];
-
             console.log(Member);
 
             GetMessages();
@@ -128,6 +133,7 @@
                         "Message": $("#txtmessage").val()
                     },
                     success: function () {
+                        $("#txtmessage").val("");    
                         GetMessages();
                         $("#MessageModal").modal('hide');
                     },
@@ -148,6 +154,82 @@
 
             })
 
+            $(".MessageList").on("click", ".btndelete", function () {
+
+                var id = $(this).attr("id").slice(9);
+
+                Swal.fire({
+                    title: '確定刪除嗎?',
+                    text: "此刪除不可復原!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '確認刪除!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            '刪除成功!',
+                            '您的留言已被刪除',
+                            'success'
+                        )
+                        $.ajax({
+                            type: "GET",
+                            url: '/Message/DeletMessage',
+                            data: { "Id": id },
+                            success: function () {
+                                GetMessages();
+                            },
+                            error: function () {
+                                alert("連線異常");
+                            }
+                        })
+                    }
+                })
+
+            })
+
+            $(".MessageList").on("click", ".btnupdate", function () {
+                 
+                var id = $(this).attr("id").slice(9);
+                var content = $(`#message${id}`).text();
+            
+                $(`#message${id}`).replaceWith(`<input type="text" id="text${id}" value="${content}">`);
+
+                $(this).addClass("btncomplete");
+
+                $(this).removeClass("btnupdate");
+
+                $(this).val("完成");
+
+            })
+
+            $(".MessageList").on("click", ".btncomplete", function () {
+
+                var id = $(this).attr("id").slice(9);
+                var content = $(`#text${id}`).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Message/UpdateMessage',
+                    data: { "Id": id, "message": content },
+                    success: function () {
+
+                        $(`#text${id}`).replaceWith(`<li id="message${id}">${content}</li>`)
+
+                        $(this).addClass("btnupdate");
+
+                        $(this).removeClass("btncomplete");
+
+                        $(this).val("編輯");
+                    },
+                    error: function () {
+                        alert("連線錯誤");
+                    }
+                })
+
+            })
+
         })
 
         function GetMessages() {
@@ -161,12 +243,28 @@
                     var el = document.querySelector(".MessageList");
                     for (var i = 0; i < data.length; i++) {
                         var date = eval((data[i].mTime).replace(/\/Date\((.*?)\)\//gi, "new Date($1)")).f("yyyy-MM-dd HH:mm:ss");
+                        var member = data[i].mMember;
+                        var Member = document.cookie.split('UserName=')[1];
 
-                        var content = `<ol class="tr"><li>${data[i].mMember}</li><li>${data[i].mMessage}</li><li>${date}</li><li></li></ol>`
-                        str += content;
+                        if (member == Member) {
+                            var content = `<ol class="tr">` +
+                                `<li>${member}</li>` +
+                                `<li id="message${data[i].mId}">${data[i].mMessage}</li>` +
+                                `<li>${date}</li>` +
+                                `<li><input type="button" class="btn btnupdate" id="btnupdate${data[i].mId}" value="編輯" />` +
+                                `<input type="button" class="btn btndelete" id="btndelete${data[i].mId}" value="刪除" /></li ></ol >`
+                            str += content;
+                        }
+                        else {
+                            var content = `<ol class="tr">` +
+                                `<li id="message${data[i].mId}">${data[i].mMember}</li>` +
+                                `<li>${data[i].mMessage}</li>` +
+                                `<li>${date}</li><li></li></ol >`
+                            str += content;
+                        }
+
                     }
                     el.innerHTML = str;
-                    console.log(date);
                 },
                 error: function () {
                     alert('載入失敗');
@@ -185,9 +283,27 @@
                     var el = document.querySelector(".MessageList");
                     for (var i = 0; i < data.length; i++) {
                         var date = eval((data[i].Time).replace(/\/Date\((.*?)\)\//gi, "new Date($1)")).f("yyyy-MM-dd HH:mm:ss");
+                        var member = data[i].Member;
+                        var Member = document.cookie.split('UserName=')[1];
 
-                        var content = `<ol class="tr"><li>${data[i].Member}</li><li>${data[i].Message}</li><li>${date}</li></ol>`
-                        str += content;
+                        if (member == Member) {
+                            var content = `<ol class="tr">` +
+                                `<li>${member}</li>` +
+                                `<li id="message${data[i].Id}">${data[i].Message}</li>` +
+                                `<li>${date}</li>` +
+                                `<li><input type="button" class="btn btnupdate" id="btnupdate${data[i].Id}" value="編輯" />` +
+                                `<input type="button" class="btn btndelete" id="btndelete${data[i].Id}" value="刪除" /></li ></ol >`
+                            str += content;
+                        }
+                        else {
+                            var content = `<ol class="tr">` +
+                                `<li>${member}</li>` +
+                                `<li id="message${data[i].Id}">${data[i].Message}</li>` +
+                                `<li>${date}</li>` +
+                                `<li></li ></ol >`
+
+                            str += content;
+                        }
                     }
                     el.innerHTML = str;
                 },
